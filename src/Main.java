@@ -33,36 +33,36 @@ public class Main {
 
         String znak = emptyList.get(1);
 
-int sum = 0;
-boolean rim = false;
-String sumString;
+        int sum = 0;
+        boolean rim = false;
+        String sumString;
 
-        int intA ;
-        int intB ;
+        int intA;
+        int intB;
 
 
-        HashMap<String, Integer> moyamapa = new HashMap<>();
+        CustomHashMap<String, Integer> moyamapa = new CustomHashMap<>();
 
-        HashMap<String, String> finalMoyaMapa = new HashMap<>();
+        CustomHashMap<String, String> finalMoyaMapa = new CustomHashMap<>();
 
 
         moyamapa.put("I", 1);
-        moyamapa.put("II",2);
-        moyamapa.put("III",3);
-        moyamapa.put("IV",4);
-        moyamapa.put("V",5);
-        moyamapa.put("VI",6);
+        moyamapa.put("II", 2);
+        moyamapa.put("III", 3);
+        moyamapa.put("IV", 4);
+        moyamapa.put("V", 5);
+        moyamapa.put("VI", 6);
         moyamapa.put("VII", 7);
-        moyamapa.put("VIII",8);
-        moyamapa.put("IX",9);
-        moyamapa.put("X",10);
+        moyamapa.put("VIII", 8);
+        moyamapa.put("IX", 9);
+        moyamapa.put("X", 10);
         moyamapa.put("XX", 20);
-        moyamapa.put("XXX",30);
+        moyamapa.put("XXX", 30);
         moyamapa.put("XM", 40);
-        moyamapa.put("M",50);
+        moyamapa.put("M", 50);
         moyamapa.put("MX", 60);
-        moyamapa.put("MXX",70);
-        moyamapa.put("MXXX",80);
+        moyamapa.put("MXX", 70);
+        moyamapa.put("MXXX", 80);
         moyamapa.put("XC", 90);
 
 
@@ -117,24 +117,18 @@ String sumString;
         }
 
 
-            sumString = Integer.toString(sum);
+        sumString = Integer.toString(sum);
 
-        if(rim){
-           String arrSum[] = sumString.split("");
-          if(arrSum.length == 1){
-            sumString =  finalMoyaMapa.get(sumString);
-          }
-          else
-          {
-             String desytki =  arrSum[0]+"0";
-              sumString = finalMoyaMapa.get(desytki) + finalMoyaMapa.get(arrSum[1]);
+        if (rim) {
+            String arrSum[] = sumString.split("");
+            if (arrSum.length == 1) {
+                sumString = finalMoyaMapa.get(sumString);
+            } else {
+                String desytki = arrSum[0] + "0";
+                sumString = finalMoyaMapa.get(desytki) + finalMoyaMapa.get(arrSum[1]);
 
-          }
+            }
         }
-
-
-
-
 
 
         return sumString;
