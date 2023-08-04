@@ -4,12 +4,10 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CustomHashMap<K, V> extends HashMap<K, V> {
-//    private Object[] table; // Поле table
 
-    transient CustomNode<K, V>[] table = new CustomNode[16];
+    @SuppressWarnings("unchecked")
+    transient CustomNode<K, V>[] table = (CustomNode<K, V>[]) new CustomNode<?, ?>[16];
 
-//    { table = new CustomNode[16];}
-    //////////////////
 
     static class TreeNode<K, V> implements Map.Entry<K, V> {
         final int hash;
@@ -105,47 +103,96 @@ public class CustomHashMap<K, V> extends HashMap<K, V> {
     @Override
     public V put(K key, V value) {
         int bucketIndex = calculateBucketIndex(key);
-        System.out.println("Добавление в бакет номер " + bucketIndex);
+        CustomNode<K, V> newNode = new CustomNode<>(key.hashCode(), key, value, null);
+        CustomNode<K, V> existingNode = this.table[bucketIndex];
 
-        CustomNode<K, V> node = getNode(key);
-        System.out.println("Объект с ключом " + key + " добавлен в бакет номер " + bucketIndex + ", нода: " + node);
+        if (existingNode == null) {
+            this.table[bucketIndex] = newNode;
+        } else {
+            int nodeIndex = 1;
+            while (existingNode.next != null) {
+                existingNode = existingNode.next;
+                nodeIndex++;
+            }
+            existingNode.next = newNode;
+            nodeIndex++;
+            System.out.println("Объект с ключом " + key + " добавлен в бакет номер " + bucketIndex + ", нода номер: " + nodeIndex + " содержит ноду " + newNode);
+        }
 
-//        if (node instanceof CustomHashMap.TreeNode<K, V>) {
-//            System.out.println("Бакет переродился в дерево");
-//        }
-
-        int hashss = key.hashCode();
-        int buckhash = (hashss & 0x7FFFFFFF);
-
-        CustomNode<K, V> newNode = new CustomNode<>(buckhash, key, value, null);
-
+        // Проверяем, достигнуто ли пороговое значение для перестройки массива
+        if (size() >= table.length * 0.75) {
+            System.out.println("Перестройка хем мапы");
+            resizeMap();
+        }
 
         return super.put(key, value);
+    }
+
+    private void resizeMap() {
+        int newCapacity = table.length * 2;
+        CustomNode<K, V>[] newTable = (CustomNode<K, V>[]) new CustomNode<?, ?>[newCapacity];
+
+        // Перехеширование элементов в новый массив
+        for (CustomNode<K, V> oldNode : table) {
+            while (oldNode != null) {
+                CustomNode<K, V> nextNode = oldNode.next;
+                int newIndex = calculateBucketIndex(oldNode.key, newCapacity);
+                oldNode.next = newTable[newIndex];
+                newTable[newIndex] = oldNode;
+                oldNode = nextNode;
+            }
+        }
+
+        // Обновляем ссылку на новый массив
+        table = newTable;
     }
 
     @Override
     public V get(Object key) {
         int bucketIndex = calculateBucketIndex(key);
-        System.out.println("Получение из бакета номер " + bucketIndex);
-
-        CustomNode<K, V> node = getNode(key);
-        System.out.println("Объект с ключом " + key + " получен из бакета номер " + bucketIndex + ", нода: " + node);
+//        System.out.println("Получение из бакета номер " + bucketIndex);
+//
+      getNode(key);
+//        int nodeIndex = 0;
+//        // Если нода не null, выведите ее содержимое с порядковым номером
+//        if (node != null) {
+//              nodeIndex = 0;
+//            while (node != null) {
+//                System.out.println("Нода номер " + nodeIndex + " из бакета номер " + bucketIndex + ": " + node);
+//                node = node.next;
+//                nodeIndex++;
+//            }
+//        } else {
+//            System.out.println("Нода из бакета номер " + bucketIndex + ": " + node);
+//        }
+//
+//        System.out.println("Объект с ключом " + key + " получен из бакета номер " + bucketIndex + ", нода: " + nodeIndex);
 
         return super.get(key);
     }
 
+
     private CustomNode<K, V> getNode(Object key) {
-        int hash = key.hashCode();
-        int bucketIndex = (hash & 0x7FFFFFFF) % this.table.length;
+        int bucketIndex = calculateBucketIndex(key);
+        System.out.println("Индекс бакета для ноды " + bucketIndex);
+        CustomNode<K, V> node = this.table[bucketIndex];
 
-        System.out.println("Индексссссссссссссссссссссссссссссссссссссссссссссссссссс бакета для ноды " + bucketIndex);
-        System.out.println(this.table[bucketIndex]);
+        if (node != null) {
+            int nodeIndex = 0;
+            CustomNode<K, V> currentNode = node;
+            while (currentNode != null) {
+                System.out.println("получение объекта - Нода номер " + nodeIndex + " из бакета номер " + bucketIndex + ": " + currentNode);
+                currentNode = currentNode.next;
+                nodeIndex++;
+            }
+        } else {
+            System.out.println("Нода из бакета номер " + bucketIndex + " нода была null - её содержимое: " + node);
+        }
 
-        ; // Вычисление индекса бакета
-        CustomNode<K, V> node = (CustomNode<K, V>) this.table[bucketIndex];
-        System.out.println("Нода из бакета номер " + bucketIndex + ": " + node);
         return node;
     }
+
+
 
     private int calculateBucketIndex(Object key) {
         int hash = key.hashCode();
@@ -159,6 +206,13 @@ public class CustomHashMap<K, V> extends HashMap<K, V> {
         return bucketIndex;
 
     }
+private int calculateBucketIndex(Object key, int capacity) {
+    int hash = key.hashCode();
+    if (table == null) {
+        return 0;
+    }
+    return (hash & 0x7FFFFFFF) % capacity;
+}
 
 
    int getCapacity() {

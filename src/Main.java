@@ -85,6 +85,25 @@ public class Main {
         finalMoyaMapa.put("80", "MXXX");
         finalMoyaMapa.put("90", "XC");
 
+        finalMoyaMapa.put("21", "I");
+        finalMoyaMapa.put("22", "II");
+        finalMoyaMapa.put("23", "III");
+        finalMoyaMapa.put("24", "IV");
+        finalMoyaMapa.put("25", "V");
+        finalMoyaMapa.put("26", "VI");
+        finalMoyaMapa.put("27", "VII");
+        finalMoyaMapa.put("28", "VIII");
+        finalMoyaMapa.put("29", "IX");
+        finalMoyaMapa.put("310", "X");
+        finalMoyaMapa.put("320", "XX");
+        finalMoyaMapa.put("330", "XXX");
+        finalMoyaMapa.put("340", "XM");
+        finalMoyaMapa.put("350", "M");
+        finalMoyaMapa.put("360", "MX");
+        finalMoyaMapa.put("370", "MXX");
+        finalMoyaMapa.put("380", "MXXX");
+        finalMoyaMapa.put("390", "XC");
+
 
         try {
             intA = Integer.parseInt(a);
@@ -131,6 +150,41 @@ public class Main {
         }
 
 
+        finalMoyaMapa.get("1");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("2");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("3");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("4");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("5");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("6");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("7");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("8");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("9");
+
+        finalMoyaMapa.get("10");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("20");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("30");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("40");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("50");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("60");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("70");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("80");
+        System.out.println("--------------------");
+        finalMoyaMapa.get("90");
         return sumString;
     }
 }
